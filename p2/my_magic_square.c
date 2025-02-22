@@ -1,4 +1,21 @@
-// add your own File Header information here (as described in Commenting guide)
+////////////////////////////////////////////////////////////////////////////////
+// Main File:        my_magic_square.c
+// This File:        my_magic_square.c
+// Other Files:      N/A
+// Semester:         CS 354 Lecture 10 Spring 2025
+// Instructor/TA:    deppeler, asch
+//
+// Author:           Michael Hu
+// UW NetID:         mhu97
+// CS Login:         mhu
+//
+//////////////////// REQUIRED -- OTHER SOURCES OF HELP /////////////////////////
+// Persons:          N/A
+//
+// Online sources:   Wikipedia for Simese Method
+//
+// AI chats:         N/A
+//////////////////////////// 80 columns wide ///////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
 // Copyright 2020 Jim Skrentny
