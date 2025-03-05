@@ -1,4 +1,22 @@
-// PLACE YOUR FILE HEADER HERE
+////////////////////////////////////////////////////////////////////////////////
+// Main File:        N/A
+// This File:        p3Heap.c
+// Other Files:      .gitignore, Makefile, p3Heap.h
+// Semester:         CS 354 Lecture 10 Spring 2025
+// Instructor/TA:    deppeler, asch
+//
+// Author:           Michael Hu
+// UW NetID:         mhu97
+// CS Login:         mhu
+//
+//////////////////// REQUIRED -- OTHER SOURCES OF HELP /////////////////////////
+// Persons:          N/A
+//
+// Online sources:
+// https://stackoverflow.com/questions/1217691/c-function-returning-via-void
+//
+// AI chats:         N/A
+//////////////////////////// 80 columns wide ///////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -147,6 +165,7 @@ void* alloc(int size) {
 
     if (!best_fit) return NULL;
 
+    // otherwise we have a result, determine if we can split it or not
     int remaining_size = best_size - block_size;
 
     // return "exact" matches
