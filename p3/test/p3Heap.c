@@ -14,13 +14,8 @@
 //
 // Online sources:
 // https://stackoverflow.com/questions/1217691/c-function-returning-via-void
-// https://en.wikipedia.org/wiki/Bitwise_operations_in_C
 //
-// AI chats:         Prompt - "Explain all bitwise operations generically as if
-//                             a 5 year old could understand, then explain them
-//                             specific to behavior in C. Spend extra time on
-//                              "|", "&", and "~" and provide discrete, simple
-//                             examples"
+// AI chats:         N/A
 //////////////////////////// 80 columns wide ///////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////
@@ -165,41 +160,29 @@ void* alloc(int size) {
             }
         }
 
-        ptr = (blockHeader*)((char*)ptr + curr_size);
+        ptr = ptr + curr_size;
     }
 
     if (!best_fit) return NULL;
 
     // otherwise we have a result, determine if we can split it or not
     int remaining_size = best_size - block_size;
-    int p_bit = best_fit->size_status & 0x2;
 
     // return "exact" matches
     if (remaining_size < MIN_BLOCK_SIZE) {
-        best_fit->size_status = best_size | p_bit | 0x1;
-
-        blockHeader* next = (blockHeader*)((char*)best_fit + best_size);
-
-        // only update the p-bit we're not at the end mark
-        if (next->size_status != 1) next->size_status |= 0x2;
-
-        return (blockHeader*)((char*)best_fit + HEADER_SIZE);
+        best_fit->size_status = best_size | 1;
+        return best_fit + HEADER_SIZE;
     }
 
     // otherwise we can split it
-    best_fit->size_status = block_size | p_bit | 0x1;
-    blockHeader* new_free_block = (blockHeader*)((char*)best_fit + block_size);
-    new_free_block->size_status = remaining_size | 0X2;
+    best_fit->size_status = block_size | 1;
+    blockHeader* new_free_block = best_fit + block_size;
+    new_free_block->size_status = remaining_size;
 
-    blockHeader* footer =
-        (blockHeader*)((char*)new_free_block + remaining_size - FOOTER_SIZE);
+    blockHeader* footer = new_free_block + remaining_size - FOOTER_SIZE;
     footer->size_status = remaining_size;
 
-    blockHeader* next = (blockHeader*)((char*)best_fit + best_size);
-    // only update the p-bit we're not at the end mark
-    if (next->size_status != 1) next->size_status &= ~0x2;
-
-    return (void*)((char*)best_fit + HEADER_SIZE);
+    return best_fit + HEADER_SIZE;
 }
 
 /*
@@ -223,77 +206,8 @@ void* alloc(int size) {
  *      Submit code that passes partA and partB to Canvas before continuing.
  */
 int free_block(void* ptr) {
-    if (ptr == NULL) return -1;
-
-    if ((unsigned long)ptr % ALIGNMENT != 0) return -1;
-
-    blockHeader* end_mark = (blockHeader*)((char*)heap_start + alloc_size);
-
-    if ((char*)ptr < (char*)heap_start + HEADER_SIZE ||
-        (char*)ptr >= (char*)end_mark) {
-        return -1;
-    }
-
-    blockHeader* block = (blockHeader*)((char*)ptr - HEADER_SIZE);
-    int size_status = block->size_status;
-
-    // a-bit = (size_status & 0x1)
-    if ((size_status & 0x1) == 0) return -1;
-
-    // clear a-bit, save p-bit if it was set
-    int p_bit = size_status & 0x2;
-    int block_size = size_status & ~0x7;
-    block->size_status = (block_size | p_bit);
-
-    blockHeader* footer =
-        (blockHeader*)((char*)block + block_size - FOOTER_SIZE);
-    footer->size_status = block_size;
-
-    blockHeader* next = (blockHeader*)((char*)block + block_size);
-    if (next->size_status != 1) {
-        // clear p-bit
-        next->size_status &= ~0x2;
-    }
-
-    // coalesce with next if it's free + not end
-    if (next->size_status != 1 && ((next->size_status & 0x1) == 0)) {
-        int next_size = next->size_status & ~0x7;
-        int total_size = block_size + next_size;
-
-        block->size_status = (block->size_status & 0x2) | total_size;
-        footer = (blockHeader*)((char*)block + total_size - FOOTER_SIZE);
-        footer->size_status = total_size;
-
-        blockHeader* next_next = (blockHeader*)((char*)next + next_size);
-
-        if (next_next->size_status != 1) next_next->size_status &= ~0x2;
-
-        block_size = total_size;
-    }
-
-    // coalesce with previous block if it's free
-    if ((block->size_status & 0x2) == 0) {
-        blockHeader* prev_footer = (blockHeader*)((char*)block - FOOTER_SIZE);
-        int prev_size = prev_footer->size_status;
-
-        blockHeader* prev_header = (blockHeader*)((char*)block - prev_size);
-        int combined_size = prev_size + block_size;
-
-        // clear combined a-bit, save p-bit from prev_header->size_status
-        int prev_p_bit = (prev_header->size_status & 0x2);
-        prev_header->size_status = (combined_size | prev_p_bit);
-
-        footer =
-            (blockHeader*)((char*)prev_header + combined_size - FOOTER_SIZE);
-        footer->size_status = combined_size;
-
-        blockHeader* next_block =
-            (blockHeader*)((char*)prev_header + combined_size);
-
-        if (next_block->size_status != 1) next_block->size_status &= ~0x2;
-    }
-
-    return 0;
+    // TODO: Your code goes in here.
+    return -1;
 }
 
 /*
