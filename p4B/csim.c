@@ -1,4 +1,21 @@
-//ADD YOUR FILE HEADER HERE
+////////////////////////////////////////////////////////////////////////////////
+// Main File:        csim.c
+// This File:        csim.c
+// Semester:         CS 354 Lecture 10 Spring 2025
+// Instructor/TA:    deppeler, asch
+// 
+// Author:           Michael Hu
+// UW NetID:         mhu97
+// CS Login:         mhu
+//
+//////////////////// REQUIRED -- OTHER SOURCES OF HELP ///////////////////////// 
+// Persons:          N/A
+//
+// Online sources:   https://stackoverflow.com/questions/7559531/javascript-typescript-switch-statement-way-to-run-same-code-for-two-cases
+//                   ^ used in replay_trace
+// 
+// AI chats:         N/Aß
+//////////////////////////// 80 columns wide ///////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 // Copyright 2013,2019-2025
@@ -84,7 +101,7 @@ typedef cache_set_t* cache_t;
 // Note: The cache is a pointer to a heap array of one or more sets.
 cache_t cache;  
 
-/* TODO - COMPLETE THIS FUNCTION
+/*
  * init_cache:
  * Allocates the data structure for a cache with S sets and E lines per set.
  * Initializes all valid bits and tags with 0s.
@@ -116,7 +133,7 @@ void init_cache() {
 }
 
 
-/* TODO - COMPLETE THIS FUNCTION 
+/*
  * free_cache:
  * Frees all heap allocated memory used by the cache.
  */                    
@@ -128,7 +145,8 @@ void free_cache() {
 }
 
 
-/* TODO - COMPLETE THIS FUNCTION 
+
+/*
  * access_data:
  * Simulates data access at given "addr" memory address in the cache.
  *
@@ -227,11 +245,6 @@ void replay_trace(char* trace_fn) {
             if (verbosity)
                 printf("%c %llx,%u ", buf[1], addr, len);
 
-            // TODO - MISSING CODE
-            // GIVEN: 1. addr has the address to be accessed
-            //        2. buf[1] has type of acccess(S/L/M)
-            // call access_data function here depending on type of access
-			// may use nested if-else if or switch statement to select
             switch (buf[1]) {
                 // one access for store and load
                 case 'S':
